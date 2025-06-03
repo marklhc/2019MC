@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
   <head>
     <title>Advancing Quantitative Science</title>
     <meta charset="utf-8" />
     <meta name="author" content="Hok Chio (Mark) Lai" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/htmltools-fill/fill.css" rel="stylesheet" />
     <script src="libs/htmlwidgets/htmlwidgets.js"></script>
     <script src="libs/viz/viz.js"></script>
     <link href="libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
@@ -17,17 +19,18 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Advancing Quantitative Science
+]
+.subtitle[
 ## with Monte Carlo Simulation
-<html>
-<div style="float:left">
-
-</div>
-<hr color='#EB811B' size=1px width=796px>
-</html>
+]
+.author[
 ### Hok Chio (Mark) Lai
-### University of Southern California
+]
+.date[
 ### 2019/05/16
+]
 
 ---
 
@@ -112,22 +115,24 @@ __data generating model__
 
 - Model: including both functional form and distributional assumptions
 
+.font80[
 
-```r
+``` r
 rnorm(5, mean = 0, sd = 1)
 ```
 
 ```
-## [1]  0.8402969  0.2800927  1.9436117  1.3453445 -0.9279642
+## [1] -1.2652601 -2.3697543  0.3104056 -0.1028454 -0.1281081
 ```
 
-```r
-rnorm(5, mean = 0, sd = 1)  # number changed
+``` r
+rnorm(5, mean = 0, sd = 1)  # numbers changed
 ```
 
 ```
-## [1]  1.59915247  0.02634574  0.01440032  0.03982828 -0.23947927
+## [1]  0.6799844 -1.0751729 -1.4964196 -1.7719189  1.0555901
 ```
+]
 
 ---
 
@@ -139,8 +144,9 @@ rnorm(5, mean = 0, sd = 1)  # number changed
 - For replicability, &lt;font color="red"&gt;__ALWAYS__&lt;/font&gt; explicitly set the seed
 in the beginning
 
+.font80[
 
-```r
+``` r
 set.seed(1)
 rnorm(5, mean = 0, sd = 1)
 ```
@@ -149,21 +155,22 @@ rnorm(5, mean = 0, sd = 1)
 ## [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078
 ```
 
-```r
+``` r
 set.seed(1)
-rnorm(5, mean = 0, sd = 1)  # same seed, same number
+rnorm(5, mean = 0, sd = 1)  # same seed, same numbers
 ```
 
 ```
 ## [1] -0.6264538  0.1836433 -0.8356286  1.5952808  0.3295078
 ```
+]
 
 ---
 
 # Generating Data From Univariate Distributions
 
 
-```r
+``` r
 rnorm(n, mean, sd)      # Normal distribution (mean and SD)
 runif(n, min, max)      # Uniform distribution (minimum and maximum)
 rchisq(n, df)           # Chi-squared distribution (degrees of freedom)
@@ -180,13 +187,13 @@ Other distributions include `exponential`, `gamma`, `beta`, `t`, `F`
 
 .small[
 
-```r
+``` r
 library(tidyverse)
 set.seed(123)
 nsim &lt;- 20  # 20 samples
 sam &lt;- rnorm(nsim)  # default is mean = 0 and sd = 1
 ggplot(tibble(x = sam), aes(x = x)) + 
-  geom_density(bw = "SJ") + 
+  geom_density(bw = "sj") + 
   stat_function(fun = dnorm, col = "red")  # overlay normal curve in red
 ```
 
@@ -314,7 +321,7 @@ Other alternatives include fractional factorial, random levels, etc
         + Constants (parameters): `\(\beta_0\)`, `\(\beta_1\)`
     * `\(Y_i\)` completely determined by `\(X_i, e_i, \beta_0, \beta_1\)`
     
-<div id="htmlwidget-daf636270d129b757355" style="width:504px;height:252px;" class="grViz html-widget"></div>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-daf636270d129b757355" style="width:504px;height:252px;"></div>
 <script type="application/json" data-for="htmlwidget-daf636270d129b757355">{"x":{"diagram":"\ndigraph reg {\n\n  # a \"graph\" statement\n  graph [overlap = true, fontsize = 10]\n\n  # several \"node\" statements\n  node [shape = box,\n        fontname = Helvetica]\n  X; Y\n\n  node [shape = circle,\n        fixedsize = true] // sets as circles\n  e\n\n  # several \"edge\" statements\n  X -> Y\n  e -> Y\n  {rank = same; X; Y;}\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 
@@ -451,7 +458,7 @@ For power (also Type I error) and CI coverage,
 
 E.g., with _R_ = 250, and empirical Type I error = 5%, 
 
-```r
+``` r
 sqrt((.05 * (1 - .05)) / 250)
 ```
 
@@ -485,7 +492,9 @@ See Boomsma (2013), Table 2, p. 526 for a checklist
 # Other topics not covered
 
 - Error handling
-- Interfacing with other software (e.g., Mplus, LISREL)
+- Assessing convergence
+- Debugging
+- Interfacing with other software (e.g., Mplus, LISREL, HLM)
 
 ---
 
@@ -511,11 +520,11 @@ class: inverse, center, middle
 
 # References
 
-.font40[
-Bandalos, D. L. and W. Leite (2013). "Use of Monte Carlo studies
-in structural equation modeling research". In: _Structural
-equation modeling. A second course_. Ed. by G. R. Hancock and R.
-O. Mueller. 2nd ed. Charlotte, NC: Information Age, pp. 625-666.
+.font70[
+Bandalos, D. L. and W. Leite (2013). "Use of Monte Carlo studies in
+structural equation modeling research". In: _Structural equation
+modeling. A second course_. Ed. by G. R. Hancock and R. O. Mueller. 2nd
+ed. Charlotte, NC: Information Age, pp. 625-666.
 
 Boomsma, A. (2013). "Reporting Monte Carlo studies in structural
 equation modeling". In: _Structural Equation Modeling_. _A
@@ -529,55 +538,66 @@ Mathematical and Statistical Psychology_ 31, pp. 144-152. DOI:
 Carsey, T. M. and J. J. Harden (2014). _Monte Carlo Simulation and
 resampling. Methods for social science_. Thousand Oaks, CA: Sage.
 
-Chalmers, P. (2019). _SimDesign: Structure for Organizing Monte
-Carlo Simulation Designs_. R package version 1.13. URL:
+Chalmers, P. (2019). _SimDesign: Structure for Organizing Monte Carlo
+Simulation Designs_. R package version 1.13. URL:
 [https://CRAN.R-project.org/package=SimDesign](https://CRAN.R-project.org/package=SimDesign).
+]
 
-Collins, L. M, J. L. Schafer, and C. Kam (2001). "A comparison of
+---
+
+# References (cont'd)
+
+.font70[
+Collins, L. M., J. L. Schafer, and C. Kam (2001). "A comparison of
 inclusive and restrictive strategies in modern missing data
 procedures". In: _Psychological Methods_ 6, pp. 330-351. DOI:
 [10.1037//1082-989X.6.4.330](https://doi.org/10.1037%2F%2F1082-989X.6.4.330).
 
-Harwell, M, N. Kohli, and Y. Peralta-Torres (2018). "A survey of
+Harwell, M., N. Kohli, and Y. Peralta-Torres (2018). "A survey of
 reporting practices of computer simulation studies in statistical
 research". In: _The American Statistician_ 72, pp. 321-327. ISSN:
 0003-1305. DOI:
 [10.1080/00031305.2017.1342692](https://doi.org/10.1080%2F00031305.2017.1342692).
 
 Hoogland, J. J. and A. Boomsma (1998). "Robustness studies in
-covariance structure modeling". In: _Sociological Methods &amp;
-Research_ 26, pp. 329-367. DOI:
+covariance structure modeling". In: _Sociological Methods &amp; Research_
+26, pp. 329-367. DOI:
 [10.1177/0049124198026003003](https://doi.org/10.1177%2F0049124198026003003).
 
-Muthén, L. K. and B. O. Muthén (2002). "How to use a Monte Carlo
-study to decide on sample size and determine power". In:
-_Structural Equation Modeling_ 9, pp. 599-620. DOI:
+Muthén, L. K. and B. O. Muthén (2002). "How to use a Monte Carlo study
+to decide on sample size and determine power". In: _Structural Equation
+Modeling_ 9, pp. 599-620. DOI:
 [10.1207/S15328007SEM0904_8](https://doi.org/10.1207%2FS15328007SEM0904_8).
 
-Serlin, R. C. (2000). "Testing for robustness in Monte Carlo
-studies". In: _Psychological Methods_ 5, pp. 230-240. DOI:
+Serlin, R. C. (2000). "Testing for robustness in Monte Carlo studies".
+In: _Psychological Methods_ 5, pp. 230-240. DOI:
 [10.1037//1082-989X.5.2.230](https://doi.org/10.1037%2F%2F1082-989X.5.2.230).
+]
 
+---
+
+# References (cont'd)
+
+.font70[
 Sigal, M. J. and R. P. Chalmers (2016). "Play it again: Teaching
-statistics with Monte Carlo simulation". In: _Journal of
-Statistics Education_ 24.3, pp. 136-156. ISSN: 1069-1898. DOI:
+statistics with Monte Carlo simulation". In: _Journal of Statistics
+Education_ 24.3, pp. 136-156. ISSN: 1069-1898. DOI:
 [10.1080/10691898.2016.1246953](https://doi.org/10.1080%2F10691898.2016.1246953).
 URL: [https://doi.org/10.1080/10691898.2016.1246953
 https://www.tandfonline.com/doi/full/10.1080/10691898.2016.1246953](https://doi.org/10.1080/10691898.2016.1246953
 https://www.tandfonline.com/doi/full/10.1080/10691898.2016.1246953).
 
-Skrondal, A. (2000). "Design and analysis of Monte Carlo
-experiments". In: _Multivariate Behavioral Research_ 35, pp.
-137-167. DOI:
+Skrondal, A. (2000). "Design and analysis of Monte Carlo experiments".
+In: _Multivariate Behavioral Research_ 35, pp. 137-167. DOI:
 [10.1207/S15327906MBR3502_1](https://doi.org/10.1207%2FS15327906MBR3502_1).
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "github",
-"highlightLines": true,
-"countIncrementalSlides": false
+  "highlightStyle": "github",
+  "highlightLines": true,
+  "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
@@ -617,9 +637,38 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
-
-<script>
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
 (function() {
   var links = document.getElementsByTagName('a');
   for (var i = 0; i < links.length; i++) {
@@ -628,7 +677,23 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
   }
 })();
-</script>
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 slideshow._releaseMath = function(el) {

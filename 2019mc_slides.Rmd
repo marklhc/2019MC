@@ -1,6 +1,6 @@
 ---
 title: "Advancing Quantitative Science"
-subtitle: "with Monte Carlo Simulation <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
+subtitle: "with Monte Carlo Simulation"
 author: "Hok Chio (Mark) Lai"
 date: "2019/05/16"
 output:
@@ -156,7 +156,7 @@ set.seed(123)
 nsim <- 20  # 20 samples
 sam <- rnorm(nsim)  # default is mean = 0 and sd = 1
 ggplot(tibble(x = sam), aes(x = x)) + 
-  geom_density(bw = "SJ") + 
+  geom_density(bw = "sj") + 
   stat_function(fun = dnorm, col = "red")  # overlay normal curve in red
 ```
 ]
@@ -180,7 +180,7 @@ plist <- vector("list", nsim / 10)
 for (i in seq_along(plist)) {
   sam_t <- sam[1:(i * 10)]
   plist[[i]] <- ggplot(tibble(x = sam_t), aes(x = x)) +
-    geom_histogram(aes(y = ..density..)) +
+    geom_histogram(aes(y = after_stat(density))) +
     stat_function(fun = dnorm, col = "red") +  # overlay normal curve in red
     annotate("text", label = paste("italic(n) == ", i * 10), 
              parse = TRUE, x = Inf, y = Inf, vjust = 1, hjust = 1)
